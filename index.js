@@ -55,10 +55,13 @@ function displayItem(item) {
 	updateTaskFormBtn.addEventListener('click', (e) => {
 		//let chosen = parseInt(e.currentTarget.parentElement.getAttribute('data'));
 		// e.preventDefault();
-		console.log(task);
+		let id = task.getAttribute('data');
+		//console.log();
 		updateForm(item.id, input);
-		listItems.removeChild(task);
-		displayItem(item);
+		if (item.id == id) {
+			listItems.removeChild(task);
+			displayItem(item);
+		}
 
 		//listItems.innerHTML = '';
 		//console.log(listItems);
