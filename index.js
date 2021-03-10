@@ -103,10 +103,7 @@ function displayItem(item) {
 	checkBox.addEventListener('change', (e) => {
 		if (e.target.checked) {
 			task.style.textDecoration = 'line-through';
-
-			//text-decoration-line: line-through;
 			markAsDone(item.id);
-			//task.style.textdecor
 		} else {
 			task.style.textDecoration = 'none';
 			unmarkAsDone(item.id);
@@ -239,7 +236,7 @@ createTaskForm.addEventListener('submit', (e) => {
 	e.preventDefault();
 	let input = document.querySelector('.create-task input');
 	let datetime = getTime();
-	addItem(itemsArr.length, input.value, false, 0, datetime);
+	addItem(itemsArr.length, input.value, false, '0', datetime);
 	createTaskDiv.classList.add('hidden');
 	input.value = '';
 });
