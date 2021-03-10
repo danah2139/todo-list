@@ -1,0 +1,130 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-size: 22px;
+	color: teal;
+}
+
+.hidden {
+	display: none;
+}
+
+.buttons-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.buttons-container li {
+	/* flex-direction: column; */
+}
+
+.large {
+	font-size: 18px;
+	padding: 15px 30px;
+}
+
+.small {
+	padding: 5px 10px;
+}
+
+form {
+	padding: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+/* label {
+	margin: 10px;
+} */
+
+input {
+	margin: 10px;
+	border: 2px solid teal;
+	border-radius: 5px;
+}
+
+input:focus,
+.btn:focus {
+	outline: 3px solid teal;
+	border-radius: 5px;
+}
+
+.btn {
+	/* color: teal; */
+	background-color: transparent;
+	border-radius: 5px;
+	border: 2px teal solid;
+	font-weight: 400;
+	margin: 5px;
+}
+
+.btn:hover {
+	background-color: teal;
+	color: white;
+}
+
+ul {
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 50vw;
+	color: black;
+}
+
+li,
+h2 {
+	text-align: center;
+	padding: 3px;
+	font-size: 1.5em;
+}
+
+span {
+	margin-right: 5px;
+}
+
+.bold {
+	font-weight: 700;
+	border: 2px solid teal;
+	border-radius: 5px;
+}
+
+.prioritize-buttons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* flex-direction: column; */
+}
+.prioritize-buttons div {
+	height: 20px;
+	width: 20px;
+	border-radius: 5px;
+	margin: 10px;
+}
+
+input[type='checkbox'] {
+	width: 30px;
+	height: 30px;
+}
+
+.red {
+	background-color: red;
+}
+
+.orange {
+	background-color: orangered;
+}
+
+.yellow {
+	background-color: yellow;
+}

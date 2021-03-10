@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>TODO</title>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<div class="list-items">
+			<div class="buttons-container list">
+				<button class="sort btn large" data-sort-type="date">
+					Sort According date
+				</button>
+				<button class="sort btn large" data-sort-type="importance">
+					Sort According importance
+				</button>
+				<button class="sort btn large" data-sort-type="status">
+					Sort According status
+				</button>
+			</div>
+			<h2>Tasks:</h2>
+			<ul></ul>
+		</div>
+		<div class="buttons-container tasks">
+			<button class="add btn large">Create Task</button>
+		</div>
+		<div class="create-task hidden">
+			<form id="form">
+				<label for="task-name">Insert your task</label>
+				<input type="text" />
+				<input type="submit" class="btn small" value="Create" />
+			</form>
+		</div>
+		<div class="update-task hidden">
+			<form id="form">
+				<label for="task-name">Insert your task</label>
+				<input type="text" />
+				<input type="submit" class="btn small" value="Update" />
+			</form>
+		</div>
+
+		<script src="./index.js"></script>
+	</body>
+</html>
