@@ -2,6 +2,7 @@ let listItems = document.querySelector('ul');
 let createTaskDiv = document.querySelector('.create-task');
 let updateTaskDiv = document.querySelector('.update-task');
 let itemsArr = [];
+let itemId = 0;
 //let currentStatus = '';
 //let prioritizeIndex = 0;
 
@@ -14,14 +15,6 @@ let itemsArr = [];
 // 		unmarkAsDone(id);
 // 	}
 // };
-
-let updateForm = (e, index, input) => {
-	e.preventDefault();
-	// let input = document.querySelector('.update-task input');
-	let datetime = getTime();
-	updateItem(index, input.value, datetime);
-	updateTaskDiv.classList.add('hidden');
-};
 
 function displayList() {
 	itemsArr.forEach((item) => {
@@ -43,24 +36,45 @@ function displayItem(item) {
 		deleteItem(item.id);
 		listItems.removeChild(task);
 	});
-
+	//let updateTaskForm = document.querySelector('.update-task form');
+	let updateTaskFormBtn = document.querySelector('.update-task button');
+	let input = document.querySelector('.update-task input');
 	let updateButton = document.createElement('button');
 	updateButton.textContent = 'Update';
 	updateButton.classList.add('btn');
 	updateButton.classList.add('small');
-	updateButton.addEventListener('click', () => {
+	updateButton.addEventListener('click', (e) => {
+		// let chosen = parseInt(
+		// 	e.currentTarget.parentElement.parentElement.getAttribute('data')
+		// );
 		updateTaskDiv.classList.remove('hidden');
-		let updateTaskForm = document.querySelector('.update-task form');
-		let input = document.querySelector('.update-task input');
 		input.value = p.textContent;
-		let index = item.id;
-		updateTaskForm.addEventListener('submit', (e) => {
-			updateForm(e, index, input);
-			listItems.innerHTML = '';
-			console.log(listItems);
-			displayList();
-		});
+		//let index = item.id;
 	});
+
+	updateTaskFormBtn.addEventListener('click', (e) => {
+		//let chosen = parseInt(e.currentTarget.parentElement.getAttribute('data'));
+		// e.preventDefault();
+		console.log(task);
+		updateForm(item.id, input);
+		listItems.removeChild(task);
+		displayItem(item);
+
+		//listItems.innerHTML = '';
+		//console.log(listItems);
+		//displayList();
+	});
+
+	// updateTaskForm.addEventListener('submit', (e) => {
+	// 	//let chosen = parseInt(e.currentTarget.parentElement.getAttribute('data'));
+	// 	e.preventDefault();
+	// 	console.log(e);
+	// 	updateForm(item.id, input);
+	// 	listItems.innerHTML = '';
+
+	// 	//console.log(listItems);
+	// 	displayList();
+	// });
 
 	let buttonsContainerDiv = document.createElement('div');
 	buttonsContainerDiv.appendChild(updateButton);
@@ -69,22 +83,20 @@ function displayItem(item) {
 	let checkBox = document.createElement('input');
 	checkBox.setAttribute('type', 'checkbox');
 	task.setAttribute('data', item.id);
-
+	let prioritizeBtn = document.createElement('div');
+	prioritizeBtn.classList.add('prioritize-buttons');
+	prioritizeBtn.insertAdjacentHTML(
+		'afterbegin',
+		`<div data="3" class="red"></div>
+		<div data="2" class="orange"></div>
+		<div data="1" class="yellow"></div>`
+	);
 	task.appendChild(buttonsContainerDiv);
 	task.appendChild(date);
 	task.appendChild(p);
 	task.appendChild(checkBox);
-	checkBox.insertAdjacentHTML(
-		'afterend',
-		`<div class="prioritize-buttons"> 
-			<div data="3" class="red"></div>
-			<div data="2" class="orange"></div>
-			<div data="1" class="yellow"></div>
-		</div>`
-	);
-
+	task.append(prioritizeBtn);
 	listItems.appendChild(task);
-	let prioritizeBtn = document.querySelector('.prioritize-buttons');
 	prioritizeBtn.addEventListener('click', (e) => {
 		let prioritizeIndex = e.target.getAttribute('data');
 		console.log(prioritizeIndex);
@@ -114,27 +126,27 @@ function displayItem(item) {
 const addItem = (id, taskName, isCompleted, prioritize, date) => {
 	itemsArr.forEach((item) => {
 		if (item.id === id) {
-			return;
+			return 'already exists';
 		}
 	});
 
 	let item = { id, taskName, isCompleted, prioritize, date };
 	itemsArr.push(item);
-	displayItem(item);
+	return item;
 };
 
 const deleteItem = (id) => {
 	itemsArr.forEach((item, index) => {
 		if (item.id === id) {
 			itemsArr.splice(index, 1);
-			return;
+			return itemsArr.length;
 		}
 	});
-	return;
+	return 'error - item not found';
 };
 
 function updateItem(id, text, date) {
-	console.log(id);
+	//console.log(id);
 	itemsArr.forEach((item) => {
 		if (item.id === id) {
 			item.taskName = text;
@@ -168,11 +180,11 @@ const unmarkAsDone = (id) => {
 	itemsArr.forEach((item) => {
 		if (item.id === id) {
 			item.isCompleted = false;
-			return;
+			return true;
 		}
 	});
 
-	return;
+	return false;
 };
 
 const sortList = (typeOrder) => {
@@ -194,13 +206,11 @@ const sortList = (typeOrder) => {
 			}
 		});
 	} else if (typeOrder === 'date') {
-		orderList = itemsArr.sort((task1, task2) => {
-			task2.date - task1.date;
-		});
+		orderList = itemsArr.sort((task1, task2) => task2.date - task1.date);
 	} else {
-		orderList = itemsArr.sort((task1, task2) => {
-			task2.prioritize - task1.prioritize;
-		});
+		orderList = itemsArr.sort(
+			(task1, task2) => task2.prioritize - task1.prioritize
+		);
 	}
 	console.log(orderList);
 
@@ -225,7 +235,7 @@ function getTime() {
 	);
 }
 /* Event Lisitener */
-
+//document.addEventListener('DOMContentLoaded', function () {
 let addButton = document.querySelector('.add');
 addButton.addEventListener('click', () => {
 	createTaskDiv.classList.remove('hidden');
@@ -236,18 +246,30 @@ createTaskForm.addEventListener('submit', (e) => {
 	e.preventDefault();
 	let input = document.querySelector('.create-task input');
 	let datetime = getTime();
-	addItem(itemsArr.length, input.value, false, '0', datetime);
+	let item = addItem(itemId, input.value, false, '0', datetime);
+	displayItem(item);
 	createTaskDiv.classList.add('hidden');
 	input.value = '';
+	itemId++;
 });
+
+function updateForm(index, input) {
+	// let input = document.querySelector('.update-task input');
+	let datetime = getTime();
+	updateItem(index, input.value, datetime);
+	updateTaskDiv.classList.add('hidden');
+}
 
 let sortBtn = document.querySelector('.list');
 sortBtn.addEventListener('click', (e) => {
 	let sortType = e.target.getAttribute('data-sort-type');
 	console.log(sortType);
 	let newItemsArr = sortList(sortType);
-	itemsArr = newItemsArr;
+	itemsArr = [...newItemsArr];
 	console.log(newItemsArr);
 	listItems.innerHTML = '';
 	displayList();
 });
+//});
+
+//module.exports = { addItem, deleteItem };
