@@ -1,9 +1,13 @@
 let listItems = document.querySelector('ul');
 let createTaskDiv = document.querySelector('.create-task');
 let updateTaskDiv = document.querySelector('.update-task');
+let input = document.querySelector('.create-task input');
+let updateInput = document.querySelector('.update-task input');
+
 let itemsArr = [];
 let itemId = 0;
-//let currentStatus = '';
+
+let currentStatusItem;
 //let prioritizeIndex = 0;
 
 // let isCompletedFunc = (e, id) => {
@@ -37,10 +41,8 @@ function displayItem(item) {
 		listItems.removeChild(task);
 	});
 	//let updateTaskForm = document.querySelector('.update-task form');
-	let updateTaskFormBtn = document.querySelector('.update-task button');
-	let input = document.querySelector('.update-task input');
 	let updateButton = document.createElement('button');
-	updateButton.textContent = 'Update';
+	updateButton.textContent = 'Edit';
 	updateButton.classList.add('btn');
 	updateButton.classList.add('small');
 	updateButton.addEventListener('click', (e) => {
@@ -49,23 +51,8 @@ function displayItem(item) {
 		// );
 		updateTaskDiv.classList.remove('hidden');
 		input.value = p.textContent;
+		currentStatusItem = item;
 		//let index = item.id;
-	});
-
-	updateTaskFormBtn.addEventListener('click', (e) => {
-		//let chosen = parseInt(e.currentTarget.parentElement.getAttribute('data'));
-		// e.preventDefault();
-		let id = task.getAttribute('data');
-		//console.log();
-		updateForm(item.id, input);
-		if (item.id == id) {
-			listItems.removeChild(task);
-			displayItem(item);
-		}
-
-		//listItems.innerHTML = '';
-		//console.log(listItems);
-		//displayList();
 	});
 
 	// updateTaskForm.addEventListener('submit', (e) => {
@@ -126,6 +113,31 @@ function displayItem(item) {
 	});
 }
 
+let updateTaskFormBtn = document.querySelector('.update-task button');
+updateTaskFormBtn.addEventListener('click', updateFormTask);
+
+function updateFormTask(e) {
+	//function(e, task){
+	//let chosen = parseInt(e.currentTarget.parentElement.getAttribute('data'));
+	e.preventDefault();
+	//let id = task.getAttribute('data');
+
+	//updateForm(currentStatusItem.id, input);
+
+	let datetime = getTime();
+	updateItem(currentStatusItem.id, updateInput.value, datetime);
+	updateTaskDiv.classList.add('hidden');
+
+	let task = document.querySelector(`ul> [data='${currentStatusItem.id}'`);
+	//console.log(task);
+
+	task.remove();
+	displayItem(currentStatusItem);
+
+	//listItems.innerHTML = '';
+	//console.log(listItems);
+	//displayList();
+}
 const addItem = (id, taskName, isCompleted, prioritize, date) => {
 	itemsArr.forEach((item) => {
 		if (item.id === id) {
@@ -247,7 +259,6 @@ addButton.addEventListener('click', () => {
 let createTaskForm = document.querySelector('.create-task form');
 createTaskForm.addEventListener('submit', (e) => {
 	e.preventDefault();
-	let input = document.querySelector('.create-task input');
 	let datetime = getTime();
 	let item = addItem(itemId, input.value, false, '0', datetime);
 	displayItem(item);
@@ -256,12 +267,13 @@ createTaskForm.addEventListener('submit', (e) => {
 	itemId++;
 });
 
-function updateForm(index, input) {
-	// let input = document.querySelector('.update-task input');
-	let datetime = getTime();
-	updateItem(index, input.value, datetime);
-	updateTaskDiv.classList.add('hidden');
-}
+// function updateForm(index, input) {
+// 	// let input = document.querySelector('.update-task input');
+// 	console.log(input.value);
+// 	let datetime = getTime();
+// 	updateItem(index, input.value, datetime);
+// 	updateTaskDiv.classList.add('hidden');
+// }
 
 let sortBtn = document.querySelector('.list');
 sortBtn.addEventListener('click', (e) => {
